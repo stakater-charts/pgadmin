@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    provider: stakater
+    app: pgadmin
+    expose: "true"
+  name: pgadmin
+  annotations:
+      xposer.stakater.com/annotations: |-
+         kubernetes.io/ingress.class: external-ingress
+         ingress.kubernetes.io/force-ssl-redirect: false
+      config.xposer.stakater.com/IngressURLTemplate: pgadmin-carbookdev.stackator.com
+      config.xposer.stakater.com/Domain: stackator.com
+      config.xposer.stakater.com/TLS: "true"
+      config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
+      forecastle.stakater.com/expose: "true"
+      forecastle.stakater.com/icon: https://www.postgresql.org/media/img/about/press/elephant.png
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: pgadmin

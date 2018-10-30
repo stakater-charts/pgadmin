@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-configmap
+data:
+  pgadmin-username: admin
+  pgadmin-email: hello@stakater.com
+  pgadmin-url: "https://pgadmin-carbookdev.stackator.com/"

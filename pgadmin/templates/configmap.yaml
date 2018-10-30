@@ -5,4 +5,4 @@ metadata:
 data:
   pgadmin-username: admin
   pgadmin-email: hello@stakater.com
-  pgadmin-url: "https://pgadmin-carbookdev.stackator.com/"
+  pgadmin-url: "https://pgadmin.carbook-dev.gocarbook.com/"

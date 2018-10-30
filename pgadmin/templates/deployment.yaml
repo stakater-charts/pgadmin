@@ -15,7 +15,6 @@ metadata:
     authproxy.stakater.com/client-secret: "$(CLIENT_SECRET)"
     authproxy.stakater.com/discovery-url: https://keycloak-carbookdev.stackator.com/auth/realms/carbook
     authproxy.stakater.com/listen: "0.0.0.0:3000"
-    authproxy.stakater.com/redirection-url: https://pgadmin-carbookdev.stackator.com/
     authproxy.stakater.com/resources: "uri=/*"
     authproxy.stakater.com/verbose: "true"
     authproxy.stakater.com/enable-logging: "true"

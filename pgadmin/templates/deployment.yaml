@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: pgadmin
-          image: {{ .Values.pgadmin.deployment.spec.template.container.image.name }}
+          image: {{ .Values.pgadmin.deployment.spec.template.container.image }}
           env:
           - name: SERVER_MODE
             value: 'True'
@@ -49,9 +49,9 @@ spec:
                 name: pgadmin-secrets
                 key: client-secret
           - name: PGADMIN_PORT
-            value: "{{ .Values.pgadmin.deployment.spec.template.container.image.port }}"
+            value: "{{ .Values.pgadmin.deployment.spec.template.container.port }}"
           ports:
-            - containerPort: {{ .Values.pgadmin.deployment.spec.template.container.image.port }}
+            - containerPort: {{ .Values.pgadmin.deployment.spec.template.container.port }}
           volumeMounts:
           - name: pv-pgadmin-data
             mountPath: /var/lib/pgadmin

@@ -4,20 +4,10 @@ metadata:
   name: pgadmin
   labels:
     app: pgadmin
+{{- if .Values.pgadmin.deployment.annotations }}
   annotations:
-    authproxy.stakater.com/enabled: "true"
-    authproxy.stakater.com/upstream-url: "https://127.0.0.1:80"
-    authproxy.stakater.com/target-port: "3000"
-    authproxy.stakater.com/source-service-name: pgadmin
-    authproxy.stakater.com/image-name: quay.io/gambol99/keycloak-proxy
-    authproxy.stakater.com/image-tag: v2.1.1
-    authproxy.stakater.com/client-id: pgadmin
-    authproxy.stakater.com/client-secret: "$(CLIENT_SECRET)"
-    authproxy.stakater.com/discovery-url: https://keycloak.carbook-dev.gocarbook.com/auth/realms/carbook
-    authproxy.stakater.com/listen: "0.0.0.0:3000"
-    authproxy.stakater.com/resources: "uri=/*"
-    authproxy.stakater.com/verbose: "true"
-    authproxy.stakater.com/enable-logging: "true"
+{{ toYaml .Values.pgadmin.deployment.annotations | indent 4 }}
+{{- end }}
 spec:
   replicas: 1
   selector:
@@ -27,31 +17,14 @@ spec:
     metadata:
       labels:
         app: pgadmin
+{{- if .Values.pgadmin.deployment.spec.template.annotations }}
       annotations:
-        fluentdConfiguration: >
-          [
-              {
-                  "containers":
-                  [
-                      {
-                          "expression": "/^\\S*\\s-\\s-\\s\\[(?<time>\\S*)[\\S\\s]*\\]\\s(?<message>[\\S\\s]*)/",
-                          "expressionFirstLine": "/^\\:\\:f{4}:[0-9]+.[0-9]+\\.[0-9]+\\.[0-9]+/",
-                          "timeFormat": "%d/%b/%Y:%H:%M:%S",
-                          "containerName": "pgadmin"
-                      },
-                      {
-                          "expression": "/^\\S*\\s(?<level>\\S*)\\s(?<class>\\S*)\\s(?<message>[\\S\\s]*)/",
-                          "expressionFirstLine": "/^[0-9].[0-9]+e\\+[0-9]+/",
-                          "timeFormat": "%Y-%m-%d %H:%M:%S,%L",
-                          "containerName": "keycloak-proxy"
-                      }
-                  ]
-              }
-          ]
+{{ toYaml .Values.pgadmin.deployment.spec.template.annotations | indent 8 }}
+{{- end }}
     spec:
       containers:
         - name: pgadmin
-          image: dpage/pgadmin4:3.2
+          image: {{ .Values.pgadmin.deployment.spec.template.container.image.name }}
           env:
           - name: SERVER_MODE
             value: 'True'
@@ -76,9 +49,9 @@ spec:
                 name: pgadmin-secrets
                 key: client-secret
           - name: PGADMIN_PORT
-            value: "80"
+            value: "{{ .Values.pgadmin.deployment.spec.template.container.image.port }}"
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.pgadmin.deployment.spec.template.container.image.port }}
           volumeMounts:
           - name: pv-pgadmin-data
             mountPath: /var/lib/pgadmin

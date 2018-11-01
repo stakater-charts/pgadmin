@@ -6,20 +6,14 @@ metadata:
     app: pgadmin
     expose: "true"
   name: pgadmin
+{{- if .Values.pgadmin.service.annotations }}
   annotations:
-      xposer.stakater.com/annotations: |-
-         kubernetes.io/ingress.class: external-ingress
-         ingress.kubernetes.io/force-ssl-redirect: false
-      config.xposer.stakater.com/IngressURLTemplate: pgadmin.carbook-dev.gocarbook.com
-      config.xposer.stakater.com/Domain: stackator.com
-      config.xposer.stakater.com/TLS: "true"
-      config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
-      forecastle.stakater.com/expose: "true"
-      forecastle.stakater.com/icon: https://www.postgresql.org/media/img/about/press/elephant.png
+{{ toYaml .Values.pgadmin.service.annotations | indent 4 }}
+{{- end }}
 spec:
   ports:
-  - port: 80
+  - port: {{ .Values.pgadmin.service.sourcePort }}
     protocol: TCP
-    targetPort: 3000
+    targetPort: {{ .Values.pgadmin.service.targetPort }}
   selector:
     app: pgadmin

@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: pgadmin-configmap
 data:
-  pgadmin-username: admin
-  pgadmin-email: hello@stakater.com
-  pgadmin-url: "https://pgadmin.carbook-dev.gocarbook.com/"
+  pgadmin-username: {{ .Values.pgadmin.config.username }}
+  pgadmin-email: {{ .Values.pgadmin.config.email }}
+  pgadmin-url: {{ .Values.pgadmin.config.url }}

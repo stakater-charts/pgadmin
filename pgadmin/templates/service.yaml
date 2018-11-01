@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "pgadmin.name" . }}
+  labels:
+{{ include "pgadmin.labels.stakater" . | indent 4 }}
+{{ include "pgadmin.labels.chart" . | indent 4 }}
+{{- if .Values.pgadmin.service.annotations }}
+  annotations:
+{{ toYaml .Values.pgadmin.service.annotations | indent 4 }}
+{{- end }}
+spec:
+  ports:
+  - port: {{ .Values.pgadmin.service.sourcePort }}
+    protocol: TCP
+    targetPort: {{ .Values.pgadmin.service.targetPort }}
+  selector:
+{{ toYaml .Values.pgadmin.deployment.podLabels | indent 4 }}

@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "pgadmin.name" . }}
+  labels:
+{{ include "pgadmin.labels.stakater" . | indent 4 }}
+{{ include "pgadmin.labels.chart" . | indent 4 }}
+{{- if .Values.pgadmin.deployment.annotations }}
+  annotations:
+{{ toYaml .Values.pgadmin.deployment.annotations | indent 4 }}
+{{- end }}
+spec:
+  replicas:  {{ .Values.pgadmin.deployment.replicas }}
+  selector:
+    matchLabels:
+{{ toYaml .Values.pgadmin.deployment.podLabels | indent 6 }}
+  template:
+    metadata:
+      labels:
+{{ toYaml .Values.pgadmin.deployment.podLabels | indent 8 }}
+{{- if .Values.pgadmin.deployment.spec.template.annotations }}
+      annotations:
+{{ toYaml .Values.pgadmin.deployment.spec.template.annotations | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - name: pgadmin
+          image: {{ .Values.pgadmin.deployment.spec.template.container.image }}
+          env:
+          - name: SERVER_MODE
+            value: 'True'
+          - name: PGADMIN_DEFAULT_USER
+            valueFrom:
+              configMapKeyRef:
+                name: pgadmin-configmap
+                key: pgadmin-username
+          - name: PGADMIN_DEFAULT_EMAIL
+            valueFrom:
+              configMapKeyRef:
+                name: pgadmin-configmap
+                key: pgadmin-email
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pgadmin-secrets
+                key: pgadmin-password
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: pgadmin-secrets
+                key: client-secret
+          - name: PGADMIN_PORT
+            value: "{{ .Values.pgadmin.deployment.spec.template.container.port }}"
+          ports:
+            - containerPort: {{ .Values.pgadmin.deployment.spec.template.container.port }}
+          volumeMounts:
+          - name: pv-pgadmin-data
+            mountPath: /var/lib/pgadmin
+      volumes:
+        - name: pv-pgadmin-data
+          persistentVolumeClaim:
+            # This disk must already exist.
+            claimName: pvc-pgadmin-data

@@ -8,6 +8,9 @@ pgadmin:
     email: hello@stakater.com
     url: "https://pgadmin-carbookdev.stackator.com/"
   deployment:
+    replicas: 1
+    podLabels:
+      app: pgadmin
     annotations:
       authproxy.stakater.com/enabled: "true"
       authproxy.stakater.com/upstream-url: "https://127.0.0.1:80"

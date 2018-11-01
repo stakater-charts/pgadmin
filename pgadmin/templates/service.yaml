@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: {{ template "pgadmin.name" . }}
   labels:
-    provider: stakater
-    app: pgadmin
-    expose: "true"
-  name: pgadmin
+{{ include "pgadmin.labels.stakater" . | indent 4 }}
+{{ include "pgadmin.labels.chart" . | indent 4 }}
 {{- if .Values.pgadmin.service.annotations }}
   annotations:
 {{ toYaml .Values.pgadmin.service.annotations | indent 4 }}
@@ -16,4 +15,4 @@ spec:
     protocol: TCP
     targetPort: {{ .Values.pgadmin.service.targetPort }}
   selector:
-    app: pgadmin
+{{ toYaml .Values.pgadmin.deployment.podLabels | indent 4 }}

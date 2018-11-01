@@ -1,22 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: pgadmin
+  name: {{ template "pgadmin.name" . }}
   labels:
-    app: pgadmin
+{{ include "pgadmin.labels.stakater" . | indent 4 }}
+{{ include "pgadmin.labels.chart" . | indent 4 }}
 {{- if .Values.pgadmin.deployment.annotations }}
   annotations:
 {{ toYaml .Values.pgadmin.deployment.annotations | indent 4 }}
 {{- end }}
 spec:
-  replicas: 1
+  replicas:  {{ .Values.pgadmin.deployment.replicas }}
   selector:
     matchLabels:
-      app: pgadmin
+{{ toYaml .Values.pgadmin.deployment.podLabels | indent 6 }}
   template:
     metadata:
       labels:
-        app: pgadmin
+{{ toYaml .Values.pgadmin.deployment.podLabels | indent 8 }}
 {{- if .Values.pgadmin.deployment.spec.template.annotations }}
       annotations:
 {{ toYaml .Values.pgadmin.deployment.spec.template.annotations | indent 8 }}

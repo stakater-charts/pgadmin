@@ -66,3 +66,6 @@ pgadmin:
         config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
         forecastle.stakater.com/expose: "true"
         forecastle.stakater.com/icon: https://www.postgresql.org/media/img/about/press/elephant.png
+  secrets:
+    password:
+    keycloaksecret:

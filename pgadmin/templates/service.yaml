@@ -5,6 +5,9 @@ metadata:
   labels:
 {{ include "pgadmin.labels.stakater" . | indent 4 }}
 {{ include "pgadmin.labels.chart" . | indent 4 }}
+{{- if .Values.pgadmin.service.labels }}
+{{ toYaml .Values.pgadmin.service.labels | indent 4 }}
+{{- end }}
 {{- if .Values.pgadmin.service.annotations }}
   annotations:
 {{ toYaml .Values.pgadmin.service.annotations | indent 4 }}

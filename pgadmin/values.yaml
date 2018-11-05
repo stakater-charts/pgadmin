@@ -67,3 +67,6 @@ pgadmin:
       config.xposer.stakater.com/Domain: stackator.com
       config.xposer.stakater.com/TLS: "true"
       config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
+  secrets:
+    password: 
+    keycloaksecret: 

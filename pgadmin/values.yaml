@@ -57,15 +57,16 @@ pgadmin:
     sourcePort: 80
     targetPort: 3000
     annotations:
-        xposer.stakater.com/annotations: |-
-           kubernetes.io/ingress.class: external-ingress
-           ingress.kubernetes.io/force-ssl-redirect: false
-        config.xposer.stakater.com/IngressURLTemplate: pgadmin-carbookdev.stackator.com
-        config.xposer.stakater.com/Domain: stackator.com
-        config.xposer.stakater.com/TLS: "true"
-        config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
+      xposer.stakater.com/annotations: |-
+        kubernetes.io/ingress.class: external-ingress
+        ingress.kubernetes.io/force-ssl-redirect: false
         forecastle.stakater.com/expose: "true"
         forecastle.stakater.com/icon: https://www.postgresql.org/media/img/about/press/elephant.png
+        forecastle.stakater.com/appName: pgAdmin
+      config.xposer.stakater.com/IngressURLTemplate: pgadmin-carbookdev.stackator.com
+      config.xposer.stakater.com/Domain: stackator.com
+      config.xposer.stakater.com/TLS: "true"
+      config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
   secrets:
-    password:
-    keycloaksecret:
+    password: 
+    keycloaksecret: 

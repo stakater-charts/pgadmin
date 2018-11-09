@@ -6,27 +6,12 @@ pgadmin:
   config:
     username: admin
     email: hello@stakater.com
-    url: "https://pgadmin-carbookdev.stackator.com/"
+    url: ""
   deployment:
     replicas: 1
     podLabels:
       app: pgadmin
     annotations:
-      authproxy.stakater.com/enabled: "true"
-      authproxy.stakater.com/upstream-url: "https://127.0.0.1:80"
-      authproxy.stakater.com/target-port: "3000"
-      authproxy.stakater.com/source-service-name: pgadmin
-      authproxy.stakater.com/image-name: quay.io/gambol99/keycloak-proxy
-      authproxy.stakater.com/image-tag: v2.1.1
-      authproxy.stakater.com/client-id: pgadmin
-      authproxy.stakater.com/client-secret: "$(CLIENT_SECRET)"
-      authproxy.stakater.com/discovery-url: https://keycloak-carbookdev.stackator.com/auth/realms/carbook
-      authproxy.stakater.com/listen: "0.0.0.0:3000"
-      authproxy.stakater.com/redirection-url: https://pgadmin-carbookdev.stackator.com/
-      authproxy.stakater.com/enable-authorization-header: "false"
-      authproxy.stakater.com/resources: "uri=/*"
-      authproxy.stakater.com/verbose: "true"
-      authproxy.stakater.com/enable-logging: "true"
     spec:
       template:
         annotations:
@@ -57,18 +42,8 @@ pgadmin:
     sourcePort: 80
     targetPort: 3000
     labels:
-      expose: "true"
+      expose:
     annotations:
-      xposer.stakater.com/annotations: |-
-        kubernetes.io/ingress.class: external-ingress
-        ingress.kubernetes.io/force-ssl-redirect: false
-        forecastle.stakater.com/expose: "true"
-        forecastle.stakater.com/icon: https://www.postgresql.org/media/img/about/press/elephant.png
-        forecastle.stakater.com/appName: pgAdmin
-      config.xposer.stakater.com/IngressURLTemplate: pgadmin-carbookdev.stackator.com
-      config.xposer.stakater.com/Domain: stackator.com
-      config.xposer.stakater.com/TLS: "true"
-      config.xposer.stakater.com/IngressNameTemplate: pgadmin-carbookdev
   secrets:
     password: 
     keycloaksecret: 

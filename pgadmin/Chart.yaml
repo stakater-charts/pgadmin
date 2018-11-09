@@ -1,7 +1,7 @@
 apiVersion: v1
 name: pgadmin
 description: pgadmin chart that runs on kubernetes
-version: 0.1.4
+version: 0.1.5
 keywords:
   - pgadmin
   - postgresql

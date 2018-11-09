@@ -1,0 +1,49 @@
+pgadmin:
+  labels:
+    group: com.stakater.platform
+    provider: stakater
+    version: {{ getenv "VERSION" }}
+  config:
+    username: admin
+    email: hello@stakater.com
+    url: ""
+  deployment:
+    replicas: 1
+    podLabels:
+      app: pgadmin
+    annotations:
+    spec:
+      template:
+        annotations:
+          fluentdConfiguration: >
+            [
+                {
+                    "containers":
+                    [
+                        {
+                            "expression": "/^\\S*\\s-\\s-\\s\\[(?<time>\\S*)[\\S\\s]*\\]\\s(?<message>[\\S\\s]*)/",
+                            "expressionFirstLine": "/^\\:\\:f{4}:[0-9]+.[0-9]+\\.[0-9]+\\.[0-9]+/",
+                            "timeFormat": "%d/%b/%Y:%H:%M:%S",
+                            "containerName": "pgadmin"
+                        },
+                        {
+                            "expression": "/^\\S*\\s(?<level>\\S*)\\s(?<class>\\S*)\\s(?<message>[\\S\\s]*)/",
+                            "expressionFirstLine": "/^[0-9].[0-9]+e\\+[0-9]+/",
+                            "timeFormat": "%Y-%m-%d %H:%M:%S,%L",
+                            "containerName": "keycloak-proxy"
+                        }
+                    ]
+                }
+            ]
+        container:
+          image: dpage/pgadmin4:3.2
+          port: 80
+  service:
+    sourcePort: 80
+    targetPort: 3000
+    labels:
+      expose:
+    annotations:
+  secrets:
+    password: 
+    keycloaksecret: 

@@ -27,6 +27,7 @@ spec:
         - name: pgadmin
           image: {{ .Values.pgadmin.deployment.spec.template.container.image }}
           env:
+{{ toYaml .Values.pgadmin.deployment.spec.template.container.env | indent 12 }}
           - name: SERVER_MODE
             value: 'True'
           - name: PGADMIN_DEFAULT_USER

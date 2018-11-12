@@ -38,6 +38,7 @@ pgadmin:
         container:
           image: dpage/pgadmin4:3.2
           port: 80
+          env: {}
   service:
     sourcePort: 80
     targetPort: 3000

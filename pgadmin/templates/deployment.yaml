@@ -28,7 +28,7 @@ spec:
           image: {{ .Values.pgadmin.deployment.spec.template.container.image }}
           env:
 {{- if .Values.pgadmin.deployment.spec.template.container.env }}
-{{ toYaml .Values.pgadmin.deployment.spec.template.container.env | indent 12 }}
+{{ toYaml .Values.pgadmin.deployment.spec.template.container.env | indent 10 }}
 {{- end }}
           - name: SERVER_MODE
             value: 'True'

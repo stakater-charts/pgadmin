@@ -2,7 +2,7 @@ pgadmin:
   labels:
     group: com.stakater.platform
     provider: stakater
-    version: 0.1.5
+    version: 0.1.6
   config:
     username: admin
     email: hello@stakater.com
@@ -38,7 +38,6 @@ pgadmin:
         container:
           image: dpage/pgadmin4:3.2
           port: 80
-          env: {}
   service:
     sourcePort: 80
     targetPort: 3000

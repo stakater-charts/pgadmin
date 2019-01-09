@@ -3,4 +3,5 @@
 
 prepareAndUploadCharts {
     charts = [ "pgadmin" ]
+    isPublic = true
 }

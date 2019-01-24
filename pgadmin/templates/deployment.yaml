@@ -23,6 +23,10 @@ spec:
 {{ toYaml .Values.pgadmin.deployment.spec.template.annotations | indent 8 }}
 {{- end }}
     spec:
+      {{- if .Values.pgadmin.tolerations }}
+      tolerations:
+{{ toYaml .Values.pgadmin.tolerations | indent 8 -}}
+      {{- end }}
       containers:
         - name: pgadmin
           image: {{ .Values.pgadmin.deployment.spec.template.container.image }}

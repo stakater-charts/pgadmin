@@ -2,7 +2,7 @@ pgadmin:
   labels:
     group: com.stakater.platform
     provider: stakater
-    version: 0.1.10
+    version: 0.1.11
   config:
     username: admin
     email: hello@stakater.com
@@ -37,14 +37,33 @@ pgadmin:
                 }
             ]
         container:
-          image: dpage/pgadmin4:3.2
+          image: dpage/pgadmin4:4.5
+          pullPolicy: IfNotPresent
           port: 80
   service:
     sourcePort: 80
-    targetPort: 3000
+    targetPort: 80
     labels:
       expose:
     annotations:
   secrets:
-    password: 
-    keycloaksecret: 
+    # password: admin
+    keycloaksecret: admin
+  persistence:
+    enabled: true
+    storageClass: "default"
+    size: 4Gi
+  ingress:
+    host: pgadmin4.mydomain.com
+    secondHost: 
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 300Mi
+    cpu: 100m
+  limits:
+    memory: 1Gi
+    cpu: 500m

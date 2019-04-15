@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "pgadmin.name" . }}
+  name: {{ template "pgadmin.fullname" . }}
   labels:
 {{ include "pgadmin.labels.stakater" . | indent 4 }}
 {{ include "pgadmin.labels.chart" . | indent 4 }}
@@ -28,8 +28,9 @@ spec:
 {{ toYaml .Values.pgadmin.tolerations | indent 8 -}}
       {{- end }}
       containers:
-        - name: pgadmin
+        - name: {{ template "pgadmin.fullname" . }}
           image: {{ .Values.pgadmin.deployment.spec.template.container.image }}
+          imagePullPolicy: {{ .Values.pgadmin.deployment.spec.template.container.imagePullPolicy }}
           env:
 {{- if .Values.pgadmin.deployment.spec.template.container.env }}
 {{ toYaml .Values.pgadmin.deployment.spec.template.container.env | indent 10 }}
@@ -39,32 +40,39 @@ spec:
           - name: PGADMIN_DEFAULT_USER
             valueFrom:
               configMapKeyRef:
-                name: pgadmin-configmap
+                name: {{ template "pgadmin.fullname" . }}-configmap
                 key: pgadmin-username
           - name: PGADMIN_DEFAULT_EMAIL
             valueFrom:
               configMapKeyRef:
-                name: pgadmin-configmap
+                name: {{ template "pgadmin.fullname" . }}-configmap
                 key: pgadmin-email
           - name: PGADMIN_DEFAULT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: pgadmin-secrets
+                name: {{ template "pgadmin.fullname" . }}-secrets
                 key: pgadmin-password
           - name: CLIENT_SECRET
             valueFrom:
               secretKeyRef:
-                name: pgadmin-secrets
+                name: {{ template "pgadmin.fullname" . }}-secrets
                 key: client-secret
           - name: PGADMIN_PORT
             value: "{{ .Values.pgadmin.deployment.spec.template.container.port }}"
           ports:
             - containerPort: {{ .Values.pgadmin.deployment.spec.template.container.port }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
           - name: pv-pgadmin-data
             mountPath: /var/lib/pgadmin
       volumes:
+      {{- if .Values.pgadmin.persistence.enabled }}
         - name: pv-pgadmin-data
           persistentVolumeClaim:
             # This disk must already exist.
-            claimName: pvc-pgadmin-data
+            claimName: pvc-{{ template "pgadmin.fullname" . }}-data
+      {{- else }}
+      - name: pv-pgadmin-data
+        emptyDir: {}
+      {{- end }}      

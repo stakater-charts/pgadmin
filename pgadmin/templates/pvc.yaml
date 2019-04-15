@@ -1,10 +1,12 @@
+{{- if .Values.pgadmin.persistence.enabled -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-pgadmin-data
+  name: pvc-{{ template "pgadmin.fullname" . }}-data
 spec:
   accessModes: [ "ReadWriteOnce" ]
-  storageClassName: default
+  storageClassName: {{ .Values.pgadmin.persistence.storageClass | quote }}
   resources:
     requests:
-      storage: 4Gi
+      storage: {{ .Values.pgadmin.persistence.size | quote }}
+{{- end -}}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: pgadmin-configmap
+  name: {{ template "pgadmin.fullname" . }}-configmap
 data:
   pgadmin-username: {{ .Values.pgadmin.config.username }}
   pgadmin-email: {{ .Values.pgadmin.config.email }}

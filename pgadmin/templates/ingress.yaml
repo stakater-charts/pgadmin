@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "pgadmin.fullname" . }}
+  labels:
+    app: {{ template "pgadmin.name" . }}
+spec:
+  rules:
+  - host: {{ .Values.pgadmin.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ template "pgadmin.fullname" . }}
+          servicePort: 80
+        path: /
+# the optional one
+  {{- if .Values.pgadmin.ingress.secondHost }}
+  - host: {{ .Values.pgadmin.ingress.secondHost }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ template "pgadmin.fullname" . }}
+          servicePort: 80
+        path: /
+  {{- end }}
+

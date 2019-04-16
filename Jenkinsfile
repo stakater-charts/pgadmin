@@ -3,5 +3,6 @@
 
 prepareAndUploadCharts {
     charts = [ "pgadmin" ]
-    isPublic = true
+    publicChartRepositoryURL = 'https://stakater.github.io/stakater-charts'
+    publicChartGitURL = 'git@github.com:stakater/stakater-charts.git'   
 }

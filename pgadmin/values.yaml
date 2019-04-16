@@ -2,7 +2,7 @@ pgadmin:
   labels:
     group: com.stakater.platform
     provider: stakater
-    version: 0.1.13
+    version: 0.1.14
   config:
     username: admin
     email: hello@stakater.com

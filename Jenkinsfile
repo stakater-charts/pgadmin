@@ -1,5 +1,5 @@
 #!/usr/bin/groovy
-@Library('github.com/stakater/fabric8-pipeline-library@v2.10.3') _
+@Library('github.com/stakater/fabric8-pipeline-library@master') _
 
 prepareAndUploadCharts {
     charts = [ "pgadmin" ]
